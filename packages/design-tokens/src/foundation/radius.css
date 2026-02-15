@@ -1,0 +1,9 @@
+:root {
+  --ds-radius-sm: 0.062rem;
+  --ds-radius-md: 0.12rem;
+  --ds-radius-lg: 0.18rem;
+  --ds-radius-xl: 0.25rem;
+  --ds-radius-2xl: 0.5rem;
+  --ds-radius-3xl: 1rem;
+  --ds-radius-pill: 9999px;
+}

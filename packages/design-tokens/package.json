@@ -1,0 +1,29 @@
+{
+  "name": "@repo/design-tokens",
+  "version": "0.0.0",
+  "private": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./foundation": {
+      "style": "./dist/foundation/index.css"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "npm run css:build && npm run css:foundation",
+    "dev": "npm run build",
+    "clean": "rm -rf .turbo node_modules dist",
+    "css:foundation": "cpx src/foundations/*.css dist/foundation || true",
+    "css:build": "postcss src/foundation/index.css -o dist/foundation/index.css"
+  },
+  "devDependencies": {
+    "cpx": "^1.5.0",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "postcss-import": "^16.1.1"
+  }
+}

@@ -1,0 +1,65 @@
+services:
+  plusgrade-api:
+    image: ptsdocker16/interview-test-server
+    ports:
+      - "5001:5001"
+
+  mongo:
+    image: mongo:7
+    container_name: mongo-auth
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    container_name: api-tax-cache
+
+  api-auth:
+    build: ./apps/api-auth
+    container_name: api-auth
+    ports:
+      - "7000:7000"
+    env_file:
+      - ./apps/api-auth/.env
+    depends_on:
+      - mongo
+  
+  api-tax:
+    build:
+      context: .
+      dockerfile: apps/api-tax/Dockerfile
+    container_name: api-tax
+    ports:
+      - "7001:7001"
+    environment:
+      PORT: 7001
+      PLUSGRADE_TAX_API_BASE_URL: http://plusgrade-api:5001
+      REDIS_URL: redis://redis:6379
+      PLUSGRADE_API_TIMEOUT_MS: 3000
+      PLUSGRADE_API_MAX_RETRIES: 3
+      PLUSGRADE_API_RETRY_BACKOFF_MS: 150
+      TAX_RATE_CACHE_TTL_SECONDS: 3600
+    depends_on:
+      - plusgrade-api
+      - redis
+
+  web:
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+    container_name: web
+    ports:
+      - "3000:3000"
+    environment:
+      API_TAX_BASE_URL: http://api-tax:7001
+      API_TAX_TIMEOUT_MS: 10000
+      WEB_INTERNAL_API_TIMEOUT_MS: 10000
+    depends_on:
+      - api-tax
+
+volumes:
+  mongo_data:

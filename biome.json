@@ -1,0 +1,42 @@
+{
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "style": {
+        "useImportType": "off"
+      }
+    }
+  },
+  "formatter": {
+    "lineWidth": 80,
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "off"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded",
+      "trailingCommas": "none",
+      "quoteStyle": "single"
+    }
+  },
+  "json": {
+    "parser": {
+      "allowComments": true
+    }
+  },
+  "css": {
+    "formatter": {
+      "enabled": false
+    },
+    "parser": {
+      "tailwindDirectives": true
+    }
+  }
+}

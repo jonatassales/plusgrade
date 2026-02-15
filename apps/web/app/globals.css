@@ -1,0 +1,92 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@repo/design-tokens/foundation";
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  a {
+    @apply text-secondary;  
+  }
+}
+
+@layer utilities {
+  .screen-padding {
+    @apply px-4 lg:px-8;
+  }
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* =========================
+	   TAILWIND TOKENS
+	   Used by Tailwind utilities
+	   ========================= */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --radius-sm: var(--ds-radius-lg);
+  --radius-md: var(--ds-radius-2xl);
+  --radius-lg: var(--ds-radius-2x);
+  --radius-xl: var(--ds-radius-2xl);
+  --radius-2xl: var(--ds-radius-2xl);
+  --radius-3xl: var(--ds-radius-3xl);
+  --radius-4xl: var(--ds-radius-3xl);
+
+  --bg-card: var(--ds-card);
+  --bg-popover: var(--ds-card);
+
+  --text-popover: var(--ds-foreground);
+  --text-secondary-foreground: var(--ds-card);
+
+  /* =========================
+	   SHADCN SEMANTIC COLOR TOKENS
+	   Tailwind generates utilities from them,
+	   but shadcn components expect these names:
+	   bg-background, text-foreground, bg-card, etc.
+	   ========================= */
+  --color-background: var(--ds-background);
+  --color-foreground: var(--ds-foreground);
+  --color-card: var(--ds-card);
+  --color-card-foreground: var(--ds-card-foreground);
+  --color-popover: var(--ds-popover);
+  --color-popover-foreground: var(--ds-popover-foreground);
+
+  --color-primary: var(--ds-primary);
+  --color-primary-foreground: var(--ds-primary-foreground);
+
+  --color-secondary: var(--ds-secondary);
+  --color-secondary-foreground: var(--ds-secondary-foreground);
+
+  --color-muted: var(--ds-muted);
+  --color-muted-foreground: var(--ds-muted-foreground);
+
+  --color-accent: var(--ds-accent);
+  --color-accent-foreground: var(--ds-accent-foreground);
+
+  --color-destructive: var(--ds-destructive);
+
+  --color-border: var(--ds-border);
+  --color-input: var(--ds-input);
+  --color-ring: var(--ds-ring);
+
+  --color-sidebar: var(--ds-sidebar);
+  --color-sidebar-foreground: var(--ds-sidebar-foreground);
+  --color-sidebar-primary: var(--ds-sidebar-primary);
+  --color-sidebar-primary-foreground: var(--ds-sidebar-primary-foreground);
+  --color-sidebar-accent: var(--ds-sidebar-accent);
+  --color-sidebar-accent-foreground: var(--ds-sidebar-accent-foreground);
+  --color-sidebar-border: var(--ds-sidebar-border);
+  --color-sidebar-ring: var(--ds-sidebar-ring);
+
+  --color-chart-1: var(--ds-chart-1);
+  --color-chart-2: var(--ds-chart-2);
+  --color-chart-3: var(--ds-chart-3);
+  --color-chart-4: var(--ds-chart-4);
+  --color-chart-5: var(--ds-chart-5);
+}
