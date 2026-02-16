@@ -7,7 +7,10 @@ import {
 export function UserAvatar() {
   return (
     <Avatar>
-      <AvatarImage src="https://github.com/jonatassales.png" />
+      <AvatarImage
+        src="https://github.com/jonatassales.png"
+        alt="User avatar"
+      />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
   )

@@ -17,27 +17,39 @@ import {
 import { Input } from '@/infra/shadcn/components/ui/input'
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
+  const titleId = 'signup-form-title'
+  const descriptionId = 'signup-form-description'
+
   return (
     <Card {...props}>
       <CardHeader>
-        <CardTitle>Create an account</CardTitle>
-        <CardDescription>
+        <CardTitle id={titleId}>Create an account</CardTitle>
+        <CardDescription id={descriptionId}>
           Enter your information below to create your account
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+        <form aria-labelledby={titleId} aria-describedby={descriptionId}>
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="name">Full Name</FieldLabel>
-              <Input id="name" type="text" placeholder="John Doe" required />
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="John Doe"
+                autoComplete="name"
+                required
+              />
             </Field>
             <Field>
               <FieldLabel htmlFor="email">Email</FieldLabel>
               <Input
                 id="email"
+                name="email"
                 type="email"
-                placeholder="m@example.com"
+                placeholder="john.doe@plusgrade.com"
+                autoComplete="email"
                 required
               />
               <FieldDescription>
@@ -47,7 +59,13 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
             </Field>
             <Field>
               <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input id="password" type="password" required />
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
+                required
+              />
               <FieldDescription>
                 Must be at least 8 characters long.
               </FieldDescription>
@@ -56,7 +74,13 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               <FieldLabel htmlFor="confirm-password">
                 Confirm Password
               </FieldLabel>
-              <Input id="confirm-password" type="password" required />
+              <Input
+                id="confirm-password"
+                name="confirm-password"
+                type="password"
+                autoComplete="new-password"
+                required
+              />
               <FieldDescription>Please confirm your password.</FieldDescription>
             </Field>
             <FieldGroup>

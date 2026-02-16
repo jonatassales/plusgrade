@@ -29,6 +29,8 @@ type IncomeTaxFormProps = {
 
 export function IncomeTaxForm(props: IncomeTaxFormProps) {
   const { defaultIncome, defaultYear, calculateIncomeTax } = props
+  const incomeErrorId = 'income-error'
+  const yearErrorId = 'year-error'
   const [income, setIncome] = useState(defaultIncome)
   const [year, setYear] = useState(defaultYear)
   const formRef = useRef<HTMLFormElement>(null)
@@ -83,6 +85,7 @@ export function IncomeTaxForm(props: IncomeTaxFormProps) {
       className="space-y-4"
       action={formAction}
       onSubmit={handleSubmit}
+      aria-busy={isPending}
     >
       <Field data-invalid={Boolean(mergedErrors.income)}>
         <FieldLabel htmlFor="income">Annual income</FieldLabel>
@@ -96,9 +99,10 @@ export function IncomeTaxForm(props: IncomeTaxFormProps) {
           value={income}
           onChange={(event) => setIncome(sanitizeDigits(event.target.value))}
           aria-invalid={Boolean(mergedErrors.income)}
+          aria-describedby={mergedErrors.income ? incomeErrorId : undefined}
           required
         />
-        <FieldError>{mergedErrors.income}</FieldError>
+        <FieldError id={incomeErrorId}>{mergedErrors.income}</FieldError>
       </Field>
 
       <Field data-invalid={Boolean(mergedErrors.year)}>
@@ -113,9 +117,10 @@ export function IncomeTaxForm(props: IncomeTaxFormProps) {
           value={year}
           onChange={(event) => setYear(sanitizeDigits(event.target.value))}
           aria-invalid={Boolean(mergedErrors.year)}
+          aria-describedby={mergedErrors.year ? yearErrorId : undefined}
           required
         />
-        <FieldError>{mergedErrors.year}</FieldError>
+        <FieldError id={yearErrorId}>{mergedErrors.year}</FieldError>
       </Field>
 
       <Button type="submit" className="w-full" disabled={isPending}>

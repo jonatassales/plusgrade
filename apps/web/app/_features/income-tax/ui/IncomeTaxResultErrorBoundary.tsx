@@ -17,7 +17,11 @@ function IncomeTaxResultErrorFallback(props: { onRetry: () => void }) {
   const { onRetry } = props
 
   return (
-    <div className="mt-4 rounded-md border border-destructive/40 p-3">
+    <div
+      className="mt-4 rounded-md border border-destructive/40 p-3"
+      role="alert"
+      aria-live="assertive"
+    >
       <p className="text-sm text-destructive">
         Something went wrong while rendering the tax result.
       </p>

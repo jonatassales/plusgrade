@@ -32,7 +32,10 @@ export default async function Home(props: HomeProps) {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex flex-1 justify-center items-center screen-padding">
+      <main
+        id="main-home"
+        className="flex flex-1 justify-center items-center screen-padding"
+      >
         <div className="max-w-md w-full">
           <IncomeTaxCalculator income={income} year={year} />
         </div>

@@ -1,6 +1,9 @@
-export function Logo() {
+import type { ComponentProps } from 'react'
+
+export function Logo(props: ComponentProps<'svg'>) {
   return (
     <svg
+      {...props}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       version="1.1"
@@ -10,6 +13,7 @@ export function Logo() {
       height="32"
       viewBox="0 0 554.7 92"
       xmlSpace="preserve"
+      focusable="false"
     >
       <title>Plusgrade logo</title>
       <style>{`
