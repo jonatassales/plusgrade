@@ -5,6 +5,10 @@ import {
 } from '@nestjs/common'
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 
+import { logAxiomEvent } from '@infra/axiom/observability/axiom-logger'
+import { LogLevel } from '@infra/axiom/observability/log-level.enum'
+import { TaxLogEvent } from '@infra/axiom/observability/tax-log-event.enum'
+
 type ExternalTaxBracket = {
   min: number
   max?: number
@@ -45,7 +49,21 @@ export class ExternalTaxApiClient {
         const isLastAttempt = attempt === this.maxRetries
         const backoffMs = attempt * this.retryBackoffMs
 
-        // TODO: Send retry/failure telemetry to the external observability tool.
+        void logAxiomEvent({
+          event: TaxLogEvent.ExternalTaxApiRequestFailed,
+          level: isLastAttempt ? LogLevel.Error : LogLevel.Warn,
+          context: {
+            year,
+            attempt,
+            maxRetries: this.maxRetries,
+            isLastAttempt,
+            backoffMs,
+            statusCode: axios.isAxiosError(error)
+              ? error.response?.status
+              : undefined,
+            errorCode: axios.isAxiosError(error) ? error.code : undefined
+          }
+        })
 
         if (isLastAttempt && year !== 2022) {
           this.throwExternalError(error, year)
@@ -122,7 +140,13 @@ export class ExternalTaxApiClient {
         throw new BadGatewayException('Invalid fallback tax brackets payload')
       }
 
-      // TODO: Send fallback usage telemetry to the external observability tool.
+      void logAxiomEvent({
+        event: TaxLogEvent.ExternalTaxApiFallbackUsed,
+        level: LogLevel.Warn,
+        context: {
+          year: 2022
+        }
+      })
 
       return data.tax_brackets
     } catch (error) {

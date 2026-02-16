@@ -2,6 +2,10 @@ import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { compare } from 'bcrypt'
 
+import { AuthFailureReason } from '@infra/axiom/observability/auth-failure-reason.enum'
+import { AuthLogEvent } from '@infra/axiom/observability/auth-log-event.enum'
+import { logAxiomEvent } from '@infra/axiom/observability/axiom-logger'
+import { LogLevel } from '@infra/axiom/observability/log-level.enum'
 import { requireStringEnv } from '@common/env'
 import { RefreshTokenPort } from '@domain/ports/refresh-token.port'
 
@@ -22,7 +26,14 @@ export class RefreshTokenUseCase {
       const stored = await this.refreshTokens.findByUserId(payload.sub)
 
       if (!stored) {
-        // TODO: Send invalid refresh token attempts to external observability tool.
+        void logAxiomEvent({
+          event: AuthLogEvent.AuthRefreshFailed,
+          level: LogLevel.Warn,
+          context: {
+            reason: AuthFailureReason.TokenNotFound,
+            userId: payload.sub
+          }
+        })
         throw new UnauthorizedException('Refresh token is invalid')
       }
 
@@ -33,7 +44,14 @@ export class RefreshTokenUseCase {
 
       const validHash = await compare(refreshToken, stored.tokenHash)
       if (!validHash) {
-        // TODO: Send invalid refresh token attempts to external observability tool.
+        void logAxiomEvent({
+          event: AuthLogEvent.AuthRefreshFailed,
+          level: LogLevel.Warn,
+          context: {
+            reason: AuthFailureReason.TokenHashMismatch,
+            userId: payload.sub
+          }
+        })
         throw new UnauthorizedException('Refresh token is invalid')
       }
 
@@ -43,7 +61,17 @@ export class RefreshTokenUseCase {
       })
 
       return { accessToken: newAccess }
-    } catch {
+    } catch (error) {
+      if (!(error instanceof UnauthorizedException)) {
+        void logAxiomEvent({
+          event: AuthLogEvent.AuthRefreshFailed,
+          level: LogLevel.Warn,
+          context: {
+            reason: AuthFailureReason.TokenVerificationFailed,
+            errorName: error instanceof Error ? error.name : 'unknown'
+          }
+        })
+      }
       throw new UnauthorizedException()
     }
   }

@@ -5,7 +5,7 @@ import { Model } from 'mongoose'
 import { User } from '@domain/entities/user.entity'
 import { UserPort } from '@domain/ports/user.port'
 import { Email } from '@domain/value-objects/email.value-object'
-import { userMapper } from '@infra/mappers/user.mapper'
+import { userMapper } from '@infra/mongoose/mappers/user.mapper'
 import {
   type UserDocument,
   User as UserSchema

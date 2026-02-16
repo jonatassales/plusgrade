@@ -6,6 +6,7 @@ import { Button } from '@/infra/shadcn/components/ui/button'
 
 type IncomeTaxResultErrorBoundaryProps = {
   children: ReactNode
+  onRetryAction?: () => void
 }
 
 type IncomeTaxResultErrorBoundaryState = {
@@ -28,7 +29,6 @@ function IncomeTaxResultErrorFallback(props: { onRetry: () => void }) {
       >
         Retry
       </Button>
-      {/* TODO: Hook this retry button to re-trigger the latest action submission. */}
     </div>
   )
 }
@@ -50,6 +50,7 @@ export class IncomeTaxResultErrorBoundary extends Component<
 
   handleRetry = () => {
     this.setState({ hasError: false })
+    this.props.onRetryAction?.()
   }
 
   render() {

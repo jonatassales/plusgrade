@@ -1,3 +1,2 @@
-pnpm build
-pnpm -r --if-present test
-pnpm lint-staged
+#!/usr/bin/env sh
+bash bin/hooks/pre-commit.sh

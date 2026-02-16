@@ -227,15 +227,7 @@ docker compose ps
 Quick smoke flow:
 
 ```bash
-EMAIL="auth.$(date +%s)@example.com"
-
-curl -s -X POST http://localhost:7000/auth/signup \
-  -H "Content-Type: application/json" \
-  -d "{\"email\":\"$EMAIL\",\"password\":\"12345678\"}"
-
-curl -s -X POST http://localhost:7000/auth/login \
-  -H "Content-Type: application/json" \
-  -d "{\"email\":\"$EMAIL\",\"password\":\"12345678\"}"
+pnpm validation:api:auth:flow
 ```
 
 ---

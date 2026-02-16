@@ -4,6 +4,7 @@ type RequestIncomeTaxParams = {
   income: string
   year: string
   baseUrl: string
+  requestId: string
 }
 
 function getTimeoutMs(value: string | undefined, fallback: number) {
@@ -12,7 +13,7 @@ function getTimeoutMs(value: string | undefined, fallback: number) {
 }
 
 export async function requestIncomeTax(params: RequestIncomeTaxParams) {
-  const { income, year, baseUrl } = params
+  const { income, year, baseUrl, requestId } = params
   const timeoutMs = getTimeoutMs(
     process.env.WEB_INTERNAL_API_TIMEOUT_MS,
     10_000
@@ -21,6 +22,9 @@ export async function requestIncomeTax(params: RequestIncomeTaxParams) {
     `${baseUrl}/api/income-tax`,
     {
       params: { income, year },
+      headers: {
+        'x-request-id': requestId
+      },
       timeout: timeoutMs
     }
   )

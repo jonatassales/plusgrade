@@ -21,10 +21,10 @@
   - [ ] Timeout/env parsing helpers
 
 ## Observability
-- [ ] Implement Axiom integration across apps
+- [x] Implement Axiom integration across apps
 - [ ] Define logging guidelines:
-  - [ ] Error context fields
-  - [ ] Correlation/request IDs
+  - [x] Error context fields
+  - [x] Correlation/request IDs
   - [ ] Environment-aware verbosity
 
 ## Accessibility (WCAG 2)
@@ -38,9 +38,9 @@
 - [ ] Add accessibility checklist to PR template or docs
 
 ## Error Handling Improvements
-- [ ] Implement retry action wiring in result error boundary
-- [ ] Improve action/route error reporting with safe structured logs
-- [ ] Define user-facing error message patterns
+- [x] Implement retry action wiring in result error boundary
+- [x] Improve action/route error reporting with safe structured logs
+- [x] Define user-facing error message patterns
 
 ## UI Branding
 - [ ] Replace favicon with Plusgrade brand asset
@@ -55,7 +55,20 @@
   - [ ] Import/path conventions
   - [x] Server/client component boundaries
   - [x] Action structure (`ui`, `domain`, `actions`)
+  - [x] Enum conventions (`PascalCase` key + `CAPS_UNDERSCORE` value)
 - [ ] Review and align existing code with new conventions
+
+## Validation Tooling and Developer Experience
+- [x] Move root executable scripts to `bin/` (`docker`, `hooks`, `validation`)
+- [x] Split commands by responsibility:
+  - [x] `docker:*` for compose lifecycle only
+  - [x] `validation:*` for API business-rule checks only
+- [x] Wire Husky hooks to thin wrappers in `bin/hooks`
+- [x] Add reusable API validation scripts:
+  - [x] Tax rule scenarios (2022 expected totals)
+  - [x] Tax negative validations (400 checks)
+  - [x] Auth flow smoke validation (signup/login/me/refresh/logout)
+- [x] Replace manual curl blocks in READMEs with `pnpm` command entry points
 
 ## Nice-to-have Follow-ups
 - [ ] Add `.env` documentation consistency across all apps

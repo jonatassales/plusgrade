@@ -31,6 +31,10 @@ plusgrade/
 │  └─ web/
 ├─ packages/
 │  └─ design-tokens/
+├─ bin/
+│  ├─ docker/
+│  ├─ hooks/
+│  └─ validation/
 ├─ .agents/
 │  ├─ api-tax/ARCHITECTURE.md
 │  ├─ api-auth/ARCHITECTURE.md
@@ -142,12 +146,12 @@ as a copilot during implementation and refinement.
 
 ## 🛠️ Getting Started
 
-From the repository root, start clean and run the full stack:
+From the repository root, run Docker lifecycle commands explicitly:
 
 ```bash
-docker compose down --remove-orphans --volumes
-docker compose up -d --build
-docker compose ps
+pnpm docker:down
+pnpm docker:up
+pnpm docker:ps
 ```
 
 ### 📡 Running Services
@@ -194,13 +198,10 @@ What each command does:
 Use this battery to check that implementation behavior matches the interview
 requirements.
 
-### 1) 2022 Tax Scenarios
+### 1) Tax calculation rules (2022 scenarios)
 
 ```bash
-curl -s http://localhost:7001/tax-calculator/tax-year/2022/salary/0
-curl -s http://localhost:7001/tax-calculator/tax-year/2022/salary/50000
-curl -s http://localhost:7001/tax-calculator/tax-year/2022/salary/100000
-curl -s http://localhost:7001/tax-calculator/tax-year/2022/salary/1234567
+pnpm validation:api:tax:rules
 ```
 
 Expected totals:
@@ -210,11 +211,10 @@ Expected totals:
 - Salary `100000` ➜ `totalTax = 17739.17`
 - Salary `1234567` ➜ `totalTax = 385587.65`
 
-### 2) Negative Tax Checks
+### 2) Tax negative checks
 
 ```bash
-curl -i http://localhost:7001/tax-calculator/tax-year/2018/salary/100000
-curl -i http://localhost:7001/tax-calculator/tax-year/2022/salary/-1
+pnpm validation:api:tax:negative
 ```
 
 Expected status:
@@ -222,45 +222,19 @@ Expected status:
 - Invalid year (`2018`) ➜ `400`
 - Invalid salary (`-1`) ➜ `400`
 
-### 3) Auth Smoke Flow
-
-Create a unique email and run signup + login:
+### 3) Auth smoke flow
 
 ```bash
-EMAIL="readme.$(date +%s)@example.com"
-
-curl -s -X POST http://localhost:7000/auth/signup \
-  -H "Content-Type: application/json" \
-  -d "{\"email\":\"$EMAIL\",\"password\":\"12345678\"}"
-
-curl -s -X POST http://localhost:7000/auth/login \
-  -H "Content-Type: application/json" \
-  -d "{\"email\":\"$EMAIL\",\"password\":\"12345678\"}"
+pnpm validation:api:auth:flow
 ```
 
-Copy `accessToken` and `refreshToken` from login response, then:
+### 4) Run all API validations
 
 ```bash
-ACCESS_TOKEN="<paste_access_token_here>"
-REFRESH_TOKEN="<paste_refresh_token_here>"
-
-curl -i http://localhost:7000/auth/me \
-  -H "Authorization: Bearer $ACCESS_TOKEN"
-
-curl -i -X POST http://localhost:7000/auth/refresh \
-  -H "Content-Type: application/json" \
-  -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}"
-
-curl -i -X POST http://localhost:7000/auth/logout \
-  -H "Content-Type: application/json" \
-  -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}"
-
-curl -i -X POST http://localhost:7000/auth/refresh \
-  -H "Content-Type: application/json" \
-  -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}"
+pnpm validation:api:smoke
 ```
 
-Expected status sequence:
+Expected status sequence for auth validation:
 
 - signup ➜ `201` (or `409` if already exists)
 - login ➜ `200`

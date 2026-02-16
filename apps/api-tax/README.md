@@ -224,17 +224,13 @@ docker compose ps
 Quick verification:
 
 ```bash
-curl -s http://localhost:7001/tax-calculator/tax-year/2022
-curl -s http://localhost:7001/tax-calculator/tax-year/2022/salary/100000
+pnpm validation:api:tax:rules
 ```
 
 Interview scenario checks:
 
 ```bash
-curl -s http://localhost:7001/tax-calculator/tax-year/2022/salary/0
-curl -s http://localhost:7001/tax-calculator/tax-year/2022/salary/50000
-curl -s http://localhost:7001/tax-calculator/tax-year/2022/salary/100000
-curl -s http://localhost:7001/tax-calculator/tax-year/2022/salary/1234567
+pnpm validation:api:tax:rules
 ```
 
 Expected totals:
@@ -247,8 +243,7 @@ Expected totals:
 Negative checks:
 
 ```bash
-curl -i http://localhost:7001/tax-calculator/tax-year/2018/salary/100000
-curl -i http://localhost:7001/tax-calculator/tax-year/2022/salary/-1
+pnpm validation:api:tax:negative
 ```
 
 Expected status:

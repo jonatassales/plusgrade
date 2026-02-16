@@ -32,6 +32,9 @@ importers:
 
   apps/api-auth:
     dependencies:
+      '@axiomhq/js':
+        specifier: ^1.4.0
+        version: 1.4.0
       '@nestjs/common':
         specifier: ^11.1.13
         version: 11.1.13(reflect-metadata@0.2.2)(rxjs@7.8.2)

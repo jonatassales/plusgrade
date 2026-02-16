@@ -1,5 +1,8 @@
 import { NestFactory } from '@nestjs/core'
 
+import { logAxiomEvent } from '@infra/axiom/observability/axiom-logger'
+import { LogLevel } from '@infra/axiom/observability/log-level.enum'
+import { TaxLogEvent } from '@infra/axiom/observability/tax-log-event.enum'
 import { AppModule } from './app.module'
 
 async function bootstrap() {
@@ -7,8 +10,14 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule)
     const port = requireNumberEnv('PORT')
     await app.listen(port)
-  } catch {
-    // TODO: Send startup configuration failures to the external observability tool.
+  } catch (error) {
+    await logAxiomEvent({
+      event: TaxLogEvent.ServiceStartupFailed,
+      level: LogLevel.Error,
+      context: {
+        errorMessage: error instanceof Error ? error.message : 'unknown'
+      }
+    })
     process.exit(1)
   }
 }

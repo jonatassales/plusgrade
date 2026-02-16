@@ -9,6 +9,13 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "lint": "biome check .",
     "format": "biome format --write .",
+    "docker:down": "bash bin/docker/docker-down.sh",
+    "docker:up": "bash bin/docker/docker-up.sh",
+    "docker:ps": "bash bin/docker/docker-ps.sh",
+    "validation:api:tax:rules": "bash bin/validation/validate-tax-calculation-rule.sh",
+    "validation:api:tax:negative": "bash bin/validation/validate-tax-negative-rule.sh",
+    "validation:api:auth:flow": "bash bin/validation/validate-auth-flow.sh",
+    "validation:api:smoke": "bash bin/validation/validate-api-rules.sh",
     "prepare": "husky",
     "postinstall": "husky"
   },

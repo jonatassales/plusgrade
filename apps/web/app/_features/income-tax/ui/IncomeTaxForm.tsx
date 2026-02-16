@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useMemo, useState } from 'react'
+import { useActionState, useMemo, useRef, useState } from 'react'
 
 import {
   Field,
@@ -31,6 +31,7 @@ export function IncomeTaxForm(props: IncomeTaxFormProps) {
   const { defaultIncome, defaultYear, calculateIncomeTax } = props
   const [income, setIncome] = useState(defaultIncome)
   const [year, setYear] = useState(defaultYear)
+  const formRef = useRef<HTMLFormElement>(null)
   const [clientErrors, setClientErrors] = useState<IncomeTaxFieldErrors>({})
   const initialState = {
     income: defaultIncome,
@@ -72,8 +73,17 @@ export function IncomeTaxForm(props: IncomeTaxFormProps) {
     })
   }
 
+  function handleBoundaryRetry() {
+    formRef.current?.requestSubmit()
+  }
+
   return (
-    <form className="space-y-4" action={formAction} onSubmit={handleSubmit}>
+    <form
+      ref={formRef}
+      className="space-y-4"
+      action={formAction}
+      onSubmit={handleSubmit}
+    >
       <Field data-invalid={Boolean(mergedErrors.income)}>
         <FieldLabel htmlFor="income">Annual income</FieldLabel>
         <Input
@@ -111,7 +121,7 @@ export function IncomeTaxForm(props: IncomeTaxFormProps) {
       <Button type="submit" className="w-full" disabled={isPending}>
         {isPending ? 'Calculating...' : 'Calculate'}
       </Button>
-      <IncomeTaxResultErrorBoundary>
+      <IncomeTaxResultErrorBoundary onRetryAction={handleBoundaryRetry}>
         <IncomeTaxResult
           result={state.result}
           error={state.formError}

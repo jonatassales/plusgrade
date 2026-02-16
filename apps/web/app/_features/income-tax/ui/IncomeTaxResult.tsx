@@ -1,8 +1,9 @@
 import { Skeleton } from '@/infra/shadcn/components/ui/skeleton'
+import { type IncomeTaxUiError } from '@/app/_features/income-tax/errors/create-income-tax-ui-error'
 
 type IncomeTaxResultProps = {
   result: number | null
-  error: string | null
+  error: IncomeTaxUiError | null
   isPending: boolean
 }
 
@@ -21,7 +22,7 @@ export function IncomeTaxResult(props: IncomeTaxResultProps) {
   if (error) {
     return (
       <div className="mt-4 rounded-md border border-destructive/40 p-3">
-        <p className="text-sm text-destructive">{error}</p>
+        <p className="text-sm text-destructive">{error.message}</p>
       </div>
     )
   }

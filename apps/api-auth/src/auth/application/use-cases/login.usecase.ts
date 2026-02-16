@@ -2,6 +2,13 @@ import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { compare, hash } from 'bcrypt'
 
+import {
+  hashSensitiveValue,
+  logAxiomEvent
+} from '@infra/axiom/observability/axiom-logger'
+import { AuthFailureReason } from '@infra/axiom/observability/auth-failure-reason.enum'
+import { AuthLogEvent } from '@infra/axiom/observability/auth-log-event.enum'
+import { LogLevel } from '@infra/axiom/observability/log-level.enum'
 import { requireStringEnv } from '@common/env'
 import { RefreshTokenPort } from '@domain/ports/refresh-token.port'
 import { UserPort } from '@domain/ports/user.port'
@@ -27,14 +34,29 @@ export class LoginUseCase {
     const user = await this.users.findByEmail(emailVo)
 
     if (!user) {
-      // TODO: Send failed login attempts to external observability tool.
+      void logAxiomEvent({
+        event: AuthLogEvent.AuthLoginFailed,
+        level: LogLevel.Warn,
+        context: {
+          reason: AuthFailureReason.UserNotFound,
+          emailHash: hashSensitiveValue(emailVo.toString())
+        }
+      })
       throw new UnauthorizedException('Invalid credentials')
     }
 
     const ok = await compare(passwordVo.toString(), user.passwordHash)
 
     if (!ok) {
-      // TODO: Send failed login attempts to external observability tool.
+      void logAxiomEvent({
+        event: AuthLogEvent.AuthLoginFailed,
+        level: LogLevel.Warn,
+        context: {
+          reason: AuthFailureReason.PasswordMismatch,
+          userId: user.id,
+          emailHash: hashSensitiveValue(user.email)
+        }
+      })
       throw new UnauthorizedException('Invalid credentials')
     }
 

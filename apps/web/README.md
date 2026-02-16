@@ -237,6 +237,8 @@ Required/used variables:
 - `API_TAX_BASE_URL` (default: `http://localhost:7001`)
 - `API_TAX_TIMEOUT_MS` (default: `10000`)
 - `WEB_INTERNAL_API_TIMEOUT_MS` (default: `10000`)
+- `AXIOM_DATASET` (Axiom dataset name for observability events)
+- `AXIOM_API_TOKEN` (Axiom API token used by server-side logging)
 
 Use the workspace and deployment env configuration to define app-specific
 values for local and production environments.
@@ -269,6 +271,15 @@ Manual UI checks:
 ---
 
 ## 📈 Axiom
+
+`web` emits structured server-side observability events to Axiom around:
+
+- action-level network failures
+- internal route validation failures
+- upstream `api-tax` failures
+
+All events include a propagated `x-request-id` value to support cross-service
+correlation.
 
 ---
 
