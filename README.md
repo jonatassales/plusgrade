@@ -148,6 +148,27 @@ as a copilot during implementation and refinement.
 
 ---
 
+## :rocket: Performance Insights
+I tested the production URL in a few metric analyser websites, including Google Lighthouse, Google PageSpeed and GT Metrix. In almost all tests, the web app got maximum scores.
+
+### Google Lighthouse
+<p align="center">
+  <img src="./docs/images/perf/lighthouse.png" width="300" />
+</p>
+
+### Google PageSpeed
+<p align="center">
+  <img src="./docs/images/perf/page-speed.png" width="300" />
+</p>
+
+
+### GT Metrix
+<p align="center">
+  <img src="./docs/images/perf/gt-metrix.png" width="300" />
+</p>
+
+---
+
 ## 🛠️ Getting Started
 
 From the repository root, run Docker lifecycle commands explicitly:
