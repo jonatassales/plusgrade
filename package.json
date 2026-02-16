@@ -13,7 +13,7 @@
     "postinstall": "husky"
   },
   "lint-staged": {
-    "*": [
+    "*.{js,jsx,ts,tsx,cjs,mjs,json,jsonc,css,md,mdx}": [
       "biome lint --write --files-ignore-unknown=true",
       "biome format --write --files-ignore-unknown=true"
     ]
