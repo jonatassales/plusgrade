@@ -1,12 +1,12 @@
 # Project TODO
 
 ## Web App Documentation
-- [ ] Build out `apps/web/README.md` with:
-  - [ ] Setup instructions (local and Docker)
-  - [ ] Environment variables (`API_TAX_BASE_URL`, `API_TAX_TIMEOUT_MS`, `WEB_INTERNAL_API_TIMEOUT_MS`)
-  - [ ] Feature overview (income-tax flow)
-  - [ ] Error handling strategy (server action + result error boundary)
-  - [ ] QA scenarios (success and failure cases)
+- [x] Build out `apps/web/README.md` with:
+  - [x] Setup instructions (local and Docker)
+  - [x] Environment variables (`API_TAX_BASE_URL`, `API_TAX_TIMEOUT_MS`, `WEB_INTERNAL_API_TIMEOUT_MS`)
+  - [x] Feature overview (income-tax flow)
+  - [x] Error handling strategy (server action + result error boundary)
+  - [x] QA scenarios (success and failure cases)
   - [ ] Add screenshots/images for key flows
 
 ## Testing Strategy (Web)
@@ -53,8 +53,8 @@
   - [ ] Props typing style
   - [ ] Props destructuring pattern (signature vs function body)
   - [ ] Import/path conventions
-  - [ ] Server/client component boundaries
-  - [ ] Action structure (`ui`, `domain`, `actions`)
+  - [x] Server/client component boundaries
+  - [x] Action structure (`ui`, `domain`, `actions`)
 - [ ] Review and align existing code with new conventions
 
 ## Nice-to-have Follow-ups
