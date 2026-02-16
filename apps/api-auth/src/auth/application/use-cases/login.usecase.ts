@@ -10,6 +10,7 @@ import { AuthFailureReason } from '@infra/axiom/observability/auth-failure-reaso
 import { AuthLogEvent } from '@infra/axiom/observability/auth-log-event.enum'
 import { LogLevel } from '@infra/axiom/observability/log-level.enum'
 import { requireStringEnv } from '@common/env'
+import { DbConfigFlag } from '@infra/db/config/db-config-flag.enum'
 import { RefreshTokenPort } from '@domain/ports/refresh-token.port'
 import { UserPort } from '@domain/ports/user.port'
 import { Email } from '@domain/value-objects/email.value-object'
@@ -17,9 +18,11 @@ import { Password } from '@domain/value-objects/password.value-object'
 
 @Injectable()
 export class LoginUseCase {
-  private readonly refreshSecret = requireStringEnv('JWT_REFRESH_SECRET')
+  private readonly refreshSecret = requireStringEnv(
+    DbConfigFlag.JwtRefreshSecret
+  )
   private readonly refreshExpiresIn = requireStringEnv(
-    'JWT_REFRESH_EXPIRES_IN'
+    DbConfigFlag.JwtRefreshExpiresIn
   ) as never
 
   constructor(

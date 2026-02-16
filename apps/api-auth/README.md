@@ -195,6 +195,7 @@ Required variables:
 
 - `PORT`
 - `MONGO_URI`
+- `MONGO_DB_NAME`
 - `JWT_SECRET`
 - `JWT_EXPIRES_IN`
 - `JWT_REFRESH_SECRET`

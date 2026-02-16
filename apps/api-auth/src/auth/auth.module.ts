@@ -11,6 +11,7 @@ import { SignupUseCase } from '@application/use-cases/signup.usecase'
 import { requireStringEnv } from '@common/env'
 import { RefreshTokenPort } from '@domain/ports/refresh-token.port'
 import { UserPort } from '@domain/ports/user.port'
+import { DbConfigFlag } from '@infra/db/config/db-config-flag.enum'
 import { MongooseRefreshTokenAdapter } from '@infra/mongoose/adapters/mongoose-refresh-token.adapter'
 import { MongooseUserAdapter } from '@infra/mongoose/adapters/mongoose-user.adapter'
 import { RefreshTokenSchemaDefinition } from '@infra/mongoose/schemas/refresh-token.schema'
@@ -29,9 +30,9 @@ import { AccessTokenGuard } from '@interface/http/guards/access-token.guard'
 
     JwtModule.registerAsync({
       useFactory: () => ({
-        secret: requireStringEnv('JWT_SECRET'),
+        secret: requireStringEnv(DbConfigFlag.JwtSecret),
         signOptions: {
-          expiresIn: requireStringEnv('JWT_EXPIRES_IN') as never
+          expiresIn: requireStringEnv(DbConfigFlag.JwtExpiresIn) as never
         }
       })
     })

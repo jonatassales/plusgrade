@@ -7,11 +7,14 @@ import { AuthLogEvent } from '@infra/axiom/observability/auth-log-event.enum'
 import { logAxiomEvent } from '@infra/axiom/observability/axiom-logger'
 import { LogLevel } from '@infra/axiom/observability/log-level.enum'
 import { requireStringEnv } from '@common/env'
+import { DbConfigFlag } from '@infra/db/config/db-config-flag.enum'
 import { RefreshTokenPort } from '@domain/ports/refresh-token.port'
 
 @Injectable()
 export class RefreshTokenUseCase {
-  private readonly refreshSecret = requireStringEnv('JWT_REFRESH_SECRET')
+  private readonly refreshSecret = requireStringEnv(
+    DbConfigFlag.JwtRefreshSecret
+  )
 
   constructor(
     private readonly refreshTokens: RefreshTokenPort,
