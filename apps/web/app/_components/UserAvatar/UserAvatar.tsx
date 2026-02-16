@@ -7,10 +7,7 @@ import {
 export function UserAvatar() {
   return (
     <Avatar>
-      <AvatarImage
-        src="https://github.com/jonatassales.png"
-        alt="User avatar"
-      />
+      <AvatarImage src="/profile.webp" alt="User avatar" />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
   )

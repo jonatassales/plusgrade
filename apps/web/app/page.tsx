@@ -3,6 +3,22 @@ import { redirect } from 'next/navigation'
 import { Header } from '@/app/_components'
 import { IncomeTaxCalculator } from './_features/income-tax/ui/IncomeTaxCalculator'
 
+export const metadata = {
+  title: 'Plusgrade',
+  description: 'Plusgrade is a platform for calculating income tax',
+  keywords: ['plusgrade', 'income tax', 'tax calculator'],
+  authors: [{ name: 'Plusgrade', url: 'https://plusgrade.com' }],
+  creator: 'Plusgrade',
+  publisher: 'Plusgrade',
+  openGraph: {
+    title: 'Plusgrade',
+    description: 'Plusgrade is a platform for calculating income tax',
+    url: 'https://plusgrade.com',
+    siteName: 'Plusgrade',
+    images: [{ url: 'https://plusgrade.com/og-image.png' }]
+  }
+}
+
 type HomeProps = {
   searchParams: Promise<{
     income?: string | string[]

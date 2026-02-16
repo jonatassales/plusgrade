@@ -1,5 +1,21 @@
 import { SignupForm } from '@/infra/shadcn/components/signup-form'
 
+export const metadata = {
+  title: 'Create account',
+  description: 'Create an account',
+  keywords: ['create account', 'signup', 'sign up'],
+  authors: [{ name: 'Plusgrade', url: 'https://plusgrade.com' }],
+  creator: 'Plusgrade',
+  publisher: 'Plusgrade',
+  openGraph: {
+    title: 'Create account',
+    description: 'Create an account',
+    url: 'https://plusgrade.com',
+    siteName: 'Plusgrade',
+    images: [{ url: 'https://plusgrade.com/og-image.png' }]
+  }
+}
+
 export default function Page() {
   return (
     <main

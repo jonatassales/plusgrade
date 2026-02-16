@@ -9,6 +9,7 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "lint": "biome check .",
     "format": "biome format --write .",
+    "infra": "pnpm docker:down && pnpm docker:up && pnpm docker:ps",
     "docker:down": "bash bin/docker/docker-down.sh",
     "docker:up": "bash bin/docker/docker-up.sh",
     "docker:ps": "bash bin/docker/docker-ps.sh",

@@ -1,5 +1,21 @@
 import { LoginForm } from '@/infra/shadcn/components/login-form'
 
+export const metadata = {
+  title: 'Login',
+  description: 'Login to your account',
+  keywords: ['login', 'sign in'],
+  authors: [{ name: 'Plusgrade', url: 'https://plusgrade.com' }],
+  creator: 'Plusgrade',
+  publisher: 'Plusgrade',
+  openGraph: {
+    title: 'Login',
+    description: 'Login to your account',
+    url: 'https://plusgrade.com',
+    siteName: 'Plusgrade',
+    images: [{ url: 'https://plusgrade.com/og-image.png' }]
+  }
+}
+
 export default function Page() {
   return (
     <main
