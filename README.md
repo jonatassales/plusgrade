@@ -15,7 +15,7 @@ scenarios.
 ## 🚀 Quick Clone
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL_HERE>
+git clone git@github.com:jonatassales/plusgrade.git
 cd plusgrade
 ```
 
