@@ -10,6 +10,10 @@ you can quickly understand each part, start the stack with Docker Compose, and
 run a direct validation battery that checks the exact Plusgrade interview
 scenarios.
 
+## :bar_chart: Insights
+
+![Alt](https://repobeats.axiom.co/api/embed/7d5823b40a8d6d0cf183bc980d190772e54b97c8.svg "Repobeats analytics image")
+
 ---
 
 ## 🚀 Quick Clone
