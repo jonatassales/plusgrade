@@ -29,12 +29,16 @@ interface IncomeTaxFormProps {
 
 export function IncomeTaxForm(props: IncomeTaxFormProps) {
   const { defaultIncome, defaultYear, calculateIncomeTax } = props
+
   const incomeErrorId = 'income-error'
   const yearErrorId = 'year-error'
+
   const [income, setIncome] = useState(defaultIncome)
   const [year, setYear] = useState(defaultYear)
-  const formRef = useRef<HTMLFormElement>(null)
   const [clientErrors, setClientErrors] = useState<IncomeTaxFieldErrors>({})
+
+  const formRef = useRef<HTMLFormElement>(null)
+
   const initialState = {
     income: defaultIncome,
     year: defaultYear,
@@ -42,6 +46,7 @@ export function IncomeTaxForm(props: IncomeTaxFormProps) {
     formError: null,
     fieldErrors: {}
   } satisfies IncomeTaxFormState
+
   const [state, formAction, isPending] = useActionState(
     calculateIncomeTax,
     initialState
