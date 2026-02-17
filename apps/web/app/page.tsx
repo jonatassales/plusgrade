@@ -19,7 +19,7 @@ export const metadata = {
   }
 }
 
-type HomeProps = {
+interface HomeProps {
   searchParams: Promise<{
     income?: string | string[]
     year?: string | string[]
@@ -35,7 +35,7 @@ function getSearchParam(value: string | string[] | undefined) {
 }
 
 export default async function Home(props: HomeProps) {
-  const isAuthenticated = true
+  const isAuthenticated = true // TODO: replace with actual authentication check
 
   const searchParams = await props.searchParams
   const income = getSearchParam(searchParams.income)

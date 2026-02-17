@@ -1,7 +1,7 @@
 import { Skeleton } from '@/infra/shadcn/components/ui/skeleton'
 import { type IncomeTaxUiError } from '@/app/_features/income-tax/errors/create-income-tax-ui-error'
 
-type IncomeTaxResultProps = {
+interface IncomeTaxResultProps {
   result: number | null
   error: IncomeTaxUiError | null
   isPending: boolean

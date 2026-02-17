@@ -9,7 +9,7 @@ import { calculateIncomeTaxAction } from '@/app/_features/income-tax/actions/cal
 
 import { IncomeTaxForm } from '@/app/_features/income-tax/ui/IncomeTaxForm'
 
-type IncomeTaxCalculatorProps = {
+interface IncomeTaxCalculatorProps {
   income: string
   year: string
 }

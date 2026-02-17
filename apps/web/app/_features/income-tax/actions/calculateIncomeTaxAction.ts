@@ -89,6 +89,7 @@ export async function calculateIncomeTaxAction(
     }
   } catch (error) {
     const isAxios = axios.isAxiosError(error)
+
     await logAxiomEvent({
       event: WebLogEvent.IncomeTaxActionFailed,
       level: LogLevel.Error,

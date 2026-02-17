@@ -18,7 +18,7 @@ import { incomeTaxInputSchema } from '@/app/_features/income-tax/domain/income-t
 import { IncomeTaxResult } from '@/app/_features/income-tax/ui/IncomeTaxResult'
 import { IncomeTaxResultErrorBoundary } from '@/app/_features/income-tax/ui/IncomeTaxResultErrorBoundary'
 
-type IncomeTaxFormProps = {
+interface IncomeTaxFormProps {
   defaultIncome: string
   defaultYear: string
   calculateIncomeTax: (

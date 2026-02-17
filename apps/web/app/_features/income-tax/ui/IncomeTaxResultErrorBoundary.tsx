@@ -4,7 +4,7 @@ import { Component, type ErrorInfo, type ReactNode } from 'react'
 
 import { Button } from '@/infra/shadcn/components/ui/button'
 
-type IncomeTaxResultErrorBoundaryProps = {
+interface IncomeTaxResultErrorBoundaryProps {
   children: ReactNode
   onRetryAction?: () => void
 }
@@ -13,7 +13,13 @@ type IncomeTaxResultErrorBoundaryState = {
   hasError: boolean
 }
 
-function IncomeTaxResultErrorFallback(props: { onRetry: () => void }) {
+interface IncomeTaxResultErrorFallbackProps {
+  onRetry: () => void
+}
+
+function IncomeTaxResultErrorFallback(
+  props: IncomeTaxResultErrorFallbackProps
+) {
   const { onRetry } = props
 
   return (

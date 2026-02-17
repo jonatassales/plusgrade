@@ -7,11 +7,12 @@ import {
   type TaxRateSnapshot
 } from '@domain/value-objects/tax-rate.value-object'
 import { TaxYear } from '@domain/value-objects/tax-year.value-object'
+import { CacheConfigFlag } from '@infra/redis/config/cache-config-flag.enum'
 
 @Injectable()
 export class GetTaxRateByYearUseCase {
   private readonly cacheTtlSeconds = this.requireNumberEnv(
-    'TAX_RATE_CACHE_TTL_SECONDS'
+    CacheConfigFlag.TaxRateCacheTtlSeconds
   )
 
   constructor(

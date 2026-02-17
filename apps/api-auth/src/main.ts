@@ -11,6 +11,7 @@ async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule)
     const port = requireNumberEnv('PORT')
+
     await app.listen(port)
   } catch (error) {
     await logAxiomEvent({
@@ -20,6 +21,7 @@ async function bootstrap() {
         errorMessage: error instanceof Error ? error.message : 'unknown'
       }
     })
+
     process.exit(1)
   }
 }
