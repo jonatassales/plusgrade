@@ -141,8 +141,9 @@ missing, and finally writes the normalized result back with a configured TTL.
 This reduces repeated upstream calls while preserving deterministic responses and
 keeps caching policy centralized in use-case orchestration rather than spread
 across controller or adapter code.
+
 <p align="center">
-  <img src="../../docs/images/architecture/cache-aside-pattern.png" width="300" />
+  <img src="../../docs/images/architecture/cache-aside-pattern.png" width="600" />
 </p>
 
 ### Retry + Fallback Resilience Pattern
