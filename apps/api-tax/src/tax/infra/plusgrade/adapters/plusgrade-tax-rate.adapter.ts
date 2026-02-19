@@ -7,10 +7,8 @@ import { TaxYear } from '@domain/value-objects/tax-year.value-object'
 import { ExternalTaxApiClient } from '@infra/plusgrade/http/external-tax-api.client'
 
 @Injectable()
-export class PlusgradeTaxRateAdapter extends TaxRatePort {
-  constructor(private readonly externalClient: ExternalTaxApiClient) {
-    super()
-  }
+export class PlusgradeTaxRateAdapter implements TaxRatePort {
+  constructor(private readonly externalClient: ExternalTaxApiClient) {}
 
   async findByYear(year: TaxYear): Promise<TaxRate | null> {
     const yearValue = year.toNumber()

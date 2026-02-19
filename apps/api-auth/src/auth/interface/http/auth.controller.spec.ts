@@ -20,7 +20,7 @@ import { AccessTokenGuard } from '@interface/http/guards/access-token.guard'
 
 import { AuthController } from './auth.controller'
 
-class InMemoryUserPort extends UserPort {
+class InMemoryUserPort implements UserPort {
   users = new Map<string, User>()
 
   async findByEmail(email: Email): Promise<User | null> {
@@ -40,7 +40,7 @@ class InMemoryUserPort extends UserPort {
   }
 }
 
-class InMemoryRefreshTokenPort extends RefreshTokenPort {
+class InMemoryRefreshTokenPort implements RefreshTokenPort {
   tokens = new Map<string, StoredRefreshToken>()
 
   async upsertForUser(data: StoredRefreshToken): Promise<void> {

@@ -141,8 +141,9 @@ missing, and finally writes the normalized result back with a configured TTL.
 This reduces repeated upstream calls while preserving deterministic responses and
 keeps caching policy centralized in use-case orchestration rather than spread
 across controller or adapter code.
-
-> [IMAGE PLACEHOLDER: Cache-Aside flow with Redis]
+<p align="center">
+  <img src="../../docs/images/architecture/cache-aside-pattern.png" width="300" />
+</p>
 
 ### Retry + Fallback Resilience Pattern
 

@@ -9,10 +9,8 @@ import {
 
 import { RefreshTokenUseCase } from './refresh-token.usecase'
 
-class InMemoryRefreshTokenPort extends RefreshTokenPort {
-  constructor(private readonly stored: StoredRefreshToken | null) {
-    super()
-  }
+class InMemoryRefreshTokenPort implements RefreshTokenPort {
+  constructor(private readonly stored: StoredRefreshToken | null) {}
 
   async upsertForUser(_data: StoredRefreshToken): Promise<void> {}
 

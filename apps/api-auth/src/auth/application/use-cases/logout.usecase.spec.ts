@@ -8,7 +8,7 @@ import {
 
 import { LogoutUseCase } from './logout.usecase'
 
-class InMemoryRefreshTokenPort extends RefreshTokenPort {
+class InMemoryRefreshTokenPort implements RefreshTokenPort {
   deletedUserId: string | null = null
 
   async upsertForUser(_data: StoredRefreshToken): Promise<void> {}

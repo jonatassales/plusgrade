@@ -6,7 +6,7 @@ import { Email } from '@domain/value-objects/email.value-object'
 
 import { SignupUseCase } from './signup.usecase'
 
-class InMemoryUserPort extends UserPort {
+class InMemoryUserPort implements UserPort {
   users: User[] = []
 
   async findByEmail(email: Email): Promise<User | null> {

@@ -12,13 +12,11 @@ import {
 } from '@infra/mongoose/schemas/user.schema'
 
 @Injectable()
-export class MongooseUserAdapter extends UserPort {
+export class MongooseUserAdapter implements UserPort {
   constructor(
     @InjectModel(UserSchema.name)
     private readonly model: Model<UserDocument>
-  ) {
-    super()
-  }
+  ) {}
 
   async findByEmail(email: Email): Promise<User | null> {
     const doc = await this.model.findOne({ email: email.toString() })

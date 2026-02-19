@@ -12,13 +12,11 @@ import {
 } from '@infra/mongoose/schemas/refresh-token.schema'
 
 @Injectable()
-export class MongooseRefreshTokenAdapter extends RefreshTokenPort {
+export class MongooseRefreshTokenAdapter implements RefreshTokenPort {
   constructor(
     @InjectModel(RefreshTokenSchema.name)
     private readonly model: Model<RefreshTokenDocument>
-  ) {
-    super()
-  }
+  ) {}
 
   async upsertForUser(data: StoredRefreshToken): Promise<void> {
     await this.model.updateOne(

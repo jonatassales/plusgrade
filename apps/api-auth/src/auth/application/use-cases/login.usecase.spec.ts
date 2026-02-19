@@ -12,10 +12,8 @@ import { Email } from '@domain/value-objects/email.value-object'
 
 import { LoginUseCase } from './login.usecase'
 
-class InMemoryUserPort extends UserPort {
-  constructor(private readonly user: User | null) {
-    super()
-  }
+class InMemoryUserPort implements UserPort {
+  constructor(private readonly user: User | null) {}
 
   async findByEmail(_email: Email): Promise<User | null> {
     return this.user
@@ -28,7 +26,7 @@ class InMemoryUserPort extends UserPort {
   async create(_user: User): Promise<void> {}
 }
 
-class InMemoryRefreshTokenPort extends RefreshTokenPort {
+class InMemoryRefreshTokenPort implements RefreshTokenPort {
   stored: StoredRefreshToken | null = null
 
   async upsertForUser(data: StoredRefreshToken): Promise<void> {

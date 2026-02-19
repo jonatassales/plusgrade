@@ -5,7 +5,7 @@ import { CachePort } from '@domain/ports/cache.port'
 import { CacheConfigFlag } from '@infra/redis/config/cache-config-flag.enum'
 
 @Injectable()
-export class RedisCacheAdapter extends CachePort {
+export class RedisCacheAdapter implements CachePort {
   private readonly redis = new Redis(
     this.requireStringEnv(CacheConfigFlag.RedisUrl)
   )
