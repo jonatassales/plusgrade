@@ -5,6 +5,9 @@ import type { WithYear } from '@domain/types/with-year.type'
 
 export const TAX_CONTEXT_KEY = 'taxContext'
 
+/** Year used for stable fallback when the year-specific endpoint fails. */
+export const FALLBACK_TAX_YEAR: WithYear['year'] = 2022
+
 export type TaxRequestConfig = AxiosRequestConfig & {
   [TAX_CONTEXT_KEY]?: WithYear
 }

@@ -4,7 +4,7 @@ import { TaxRatePort } from '@domain/ports/tax-rate.port'
 import { TaxBracket } from '@domain/value-objects/tax-bracket.value-object'
 import { TaxRate } from '@domain/value-objects/tax-rate.value-object'
 import { TaxYear } from '@domain/value-objects/tax-year.value-object'
-import { ExternalTaxApiClient } from '@infra/plusgrade/http/external-tax-api.client'
+import { ExternalTaxApiClient } from '@infra/plusgrade/http'
 
 @Injectable()
 export class PlusgradeTaxRateAdapter implements TaxRatePort {

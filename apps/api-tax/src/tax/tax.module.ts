@@ -10,7 +10,7 @@ import { AxiomLogger } from '@infra/axiom/logger'
 import { EnvTaxRateCacheConfigAdapter } from '@infra/env/adapters/env-tax-rate-cache-config.adapter'
 import { EnvService } from '@infra/env/env.service'
 import { PlusgradeTaxRateAdapter } from '@infra/plusgrade/adapters/plusgrade-tax-rate.adapter'
-import { ExternalTaxApiClient } from '@infra/plusgrade/http/external-tax-api.client'
+import { ExternalTaxApiClient } from '@infra/plusgrade/http'
 import { RedisCacheAdapter } from '@infra/redis/adapters/redis-cache.adapter'
 import { TaxController } from '@interface/http/tax.controller'
 

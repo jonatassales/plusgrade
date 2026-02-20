@@ -14,6 +14,17 @@ export type LogRetryAttemptParams = {
   retryBackoffMs: number
 }
 
+function getStatusCode(error: unknown): number | undefined {
+  return axios.isAxiosError(error) ? error.response?.status : undefined
+}
+
+function getErrorCode(error: unknown): string | undefined {
+  return axios.isAxiosError(error) ? error.code : undefined
+}
+
+/**
+ * Logs a single retry attempt for the external tax API (warning or error if last attempt).
+ */
 export function logRetryAttempt(
   params: LogRetryAttemptParams,
   logger: AxiomLogger
@@ -31,10 +42,8 @@ export function logRetryAttempt(
       maxRetries,
       isLastAttempt,
       backoffMs,
-      statusCode: axios.isAxiosError(error)
-        ? error.response?.status
-        : undefined,
-      errorCode: axios.isAxiosError(error) ? error.code : undefined
+      statusCode: getStatusCode(error),
+      errorCode: getErrorCode(error)
     }
   })
 }

@@ -9,8 +9,10 @@ import { CachePort } from '@domain/ports/cache.port'
 import { TaxRatePort } from '@domain/ports/tax-rate.port'
 import { TaxCalculatorService } from '@domain/services/tax-calculator.service'
 import { PlusgradeTaxRateAdapter } from '@infra/plusgrade/adapters/plusgrade-tax-rate.adapter'
-import { ExternalTaxApiClient } from '@infra/plusgrade/http/external-tax-api.client'
-import type { ExternalTaxBracket } from '@infra/plusgrade/http/external-tax-api.types'
+import {
+  ExternalTaxApiClient,
+  type ExternalTaxBracket
+} from '@infra/plusgrade/http'
 
 import { TaxController } from './tax.controller'
 

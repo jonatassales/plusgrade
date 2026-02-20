@@ -6,12 +6,14 @@ import { EnvFlag } from '@infra/env/env.flag.enum'
 import { EnvService } from '@infra/env/env.service'
 
 import type { WithYear } from '@domain/types/with-year.type'
-import type { ExternalTaxBracket } from './external-tax-api.types'
-import { createHttpClient } from './create-http-client'
-import { fetchTaxBracketsForYear } from './fetch-tax-brackets-for-year'
-import { getStableTaxBrackets } from './get-stable-tax-brackets'
-import { logRetryAttempt } from './log-retry-attempt'
-import { throwExternalError } from './throw-external-error'
+
+import type { ExternalTaxBracket } from '@infra/plusgrade/types'
+import { createHttpClient } from '@infra/plusgrade/transport/create-http-client'
+import { fetchTaxBracketsForYear } from '@infra/plusgrade/fetch/fetch-tax-brackets-for-year'
+import { getStableTaxBrackets } from '@infra/plusgrade/fetch/get-stable-tax-brackets'
+import { logRetryAttempt } from '@infra/plusgrade/logging/log-retry-attempt'
+import { throwExternalError } from '@infra/plusgrade/errors/throw-external-error'
+import { FALLBACK_TAX_YEAR } from '@infra/plusgrade/types'
 
 @Injectable()
 export class ExternalTaxApiClient {
@@ -42,21 +44,25 @@ export class ExternalTaxApiClient {
     try {
       return await fetchTaxBracketsForYear(this.http, this.baseUrl, year)
     } catch (error) {
-      logRetryAttempt(
-        {
-          attempt: this.maxRetries,
-          error,
-          year,
-          isLastAttempt: true,
-          maxRetries: this.maxRetries,
-          retryBackoffMs: this.retryBackoffMs
-        },
-        this.axiomLogger
-      )
-      if (year === 2022) {
+      this.logFinalFailure(error, year)
+      if (year === FALLBACK_TAX_YEAR) {
         return getStableTaxBrackets(this.http, this.baseUrl, this.axiomLogger)
       }
       throwExternalError(error, year)
     }
+  }
+
+  private logFinalFailure(error: unknown, year: WithYear['year']): void {
+    logRetryAttempt(
+      {
+        attempt: this.maxRetries,
+        error,
+        year,
+        isLastAttempt: true,
+        maxRetries: this.maxRetries,
+        retryBackoffMs: this.retryBackoffMs
+      },
+      this.axiomLogger
+    )
   }
 }

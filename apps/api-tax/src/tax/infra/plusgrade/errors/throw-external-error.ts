@@ -6,6 +6,10 @@ import axios, { type AxiosError } from 'axios'
 
 import type { WithYear } from '@domain/types/with-year.type'
 
+/**
+ * Maps external tax API failures to Nest HTTP exceptions.
+ * Re-throws BadGatewayException as-is; maps Axios errors by status; otherwise ServiceUnavailable.
+ */
 export function throwExternalError(
   error: unknown,
   year: WithYear['year']
