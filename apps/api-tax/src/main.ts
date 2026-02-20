@@ -1,17 +1,22 @@
 import { NestFactory } from '@nestjs/core'
 
-import { logAxiomEvent } from '@infra/axiom/observability/axiom-logger'
-import { LogLevel } from '@infra/axiom/observability/log-level.enum'
-import { TaxLogEvent } from '@infra/axiom/observability/tax-log-event.enum'
+import { AxiomLogger } from '@infra/axiom/logger'
+import { LogLevel } from '@infra/axiom/log-level.enum'
+import { TaxLogEvent } from '@infra/axiom/tax-log-event.enum'
+import { EnvService } from '@infra/env/env.service'
+import { EnvFlag } from '@infra/env/env.flag.enum'
 import { AppModule } from './app.module'
 
 async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule)
-    const port = requireNumberEnv('PORT')
+    const env = app.get(EnvService)
+    const port = env.requireNumber(EnvFlag.Port)
     await app.listen(port)
   } catch (error) {
-    await logAxiomEvent({
+    const env = new EnvService()
+    const logger = new AxiomLogger(env)
+    await logger.log({
       event: TaxLogEvent.ServiceStartupFailed,
       level: LogLevel.Error,
       context: {
@@ -22,17 +27,3 @@ async function bootstrap() {
   }
 }
 bootstrap()
-
-function requireNumberEnv(name: string): number {
-  const value = process.env[name]
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${name}`)
-  }
-
-  const parsed = Number(value)
-  if (!Number.isFinite(parsed)) {
-    throw new Error(`Environment variable ${name} must be a valid number`)
-  }
-
-  return parsed
-}

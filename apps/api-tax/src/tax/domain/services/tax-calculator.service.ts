@@ -1,19 +1,16 @@
 import { Injectable } from '@nestjs/common'
 
+import type { BandTaxResult } from '@domain/types/band-tax-result.type'
+import type { TaxCalculationSummary } from '@domain/types/tax-calculation-summary.type'
 import { Salary } from '@domain/value-objects/salary.value-object'
 import { TaxBracket } from '@domain/value-objects/tax-bracket.value-object'
 
-export type BandTaxResult = {
-  min: number
-  max: number | null
-  rate: number
-  taxableIncome: number
-  tax: number
-}
-
 @Injectable()
 export class TaxCalculatorService {
-  calculate(salary: Salary, brackets: TaxBracket[]) {
+  calculate(
+    salary: Salary,
+    brackets: TaxBracket[]
+  ): TaxCalculationSummary & { bands: BandTaxResult[] } {
     const salaryValue = salary.toNumber()
 
     if (salaryValue <= 0) {

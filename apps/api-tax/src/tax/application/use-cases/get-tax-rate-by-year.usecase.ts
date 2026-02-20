@@ -1,24 +1,23 @@
 import { Inject, Injectable } from '@nestjs/common'
 
+import { TaxRateCacheConfigPort } from '@application/ports/tax-rate-cache-config.port'
 import { CachePort } from '@domain/ports/cache.port'
 import { TaxRatePort } from '@domain/ports/tax-rate.port'
-import {
-  TaxRate,
-  type TaxRateSnapshot
-} from '@domain/value-objects/tax-rate.value-object'
+import type { TaxRateSnapshot } from '@domain/types/tax-rate-snapshot.type'
+import { TaxRate } from '@domain/value-objects/tax-rate.value-object'
 import { TaxYear } from '@domain/value-objects/tax-year.value-object'
-import { CacheConfigFlag } from '@infra/redis/config/cache-config-flag.enum'
 
 @Injectable()
 export class GetTaxRateByYearUseCase {
-  private readonly cacheTtlSeconds = this.requireNumberEnv(
-    CacheConfigFlag.TaxRateCacheTtlSeconds
-  )
+  private readonly cacheTtlSeconds: number
 
   constructor(
+    @Inject(TaxRateCacheConfigPort) config: TaxRateCacheConfigPort,
     @Inject(CachePort) private readonly cache: CachePort,
     @Inject(TaxRatePort) private readonly repo: TaxRatePort
-  ) {}
+  ) {
+    this.cacheTtlSeconds = config.getTtlSeconds()
+  }
 
   async execute(year: TaxYear): Promise<TaxRate | null> {
     const yearValue = year.toNumber()
@@ -33,19 +32,5 @@ export class GetTaxRateByYearUseCase {
     await this.cache.set(key, tax.toSnapshot(), this.cacheTtlSeconds)
 
     return tax
-  }
-
-  private requireNumberEnv(name: string): number {
-    const value = process.env[name]
-    if (!value) {
-      throw new Error(`Missing required environment variable: ${name}`)
-    }
-
-    const parsed = Number(value)
-    if (!Number.isFinite(parsed)) {
-      throw new Error(`Environment variable ${name} must be a valid number`)
-    }
-
-    return parsed
   }
 }

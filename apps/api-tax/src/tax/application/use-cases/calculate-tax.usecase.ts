@@ -1,25 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 
 import { GetTaxRateByYearUseCase } from '@application/use-cases/get-tax-rate-by-year.usecase'
+import type { BandTaxResult } from '@domain/types/band-tax-result.type'
+import type { TaxCalculationSummary } from '@domain/types/tax-calculation-summary.type'
+import type { WithYear } from '@domain/types/with-year.type'
 import { TaxCalculatorService } from '@domain/services/tax-calculator.service'
 import { Salary } from '@domain/value-objects/salary.value-object'
 import { TaxYear } from '@domain/value-objects/tax-year.value-object'
 
-interface TaxByBand {
-  min: number
-  max: number | null
-  rate: number
-  taxableIncome: number
-  tax: number
-}
-
-export type CalculateTaxResult = {
-  year: number
+export type CalculateTaxResult = WithYear & {
   salary: number
-  totalTax: number
-  effectiveRate: number
-  taxesByBand: TaxByBand[]
-}
+} & TaxCalculationSummary & {
+    taxesByBand: BandTaxResult[]
+  }
 
 @Injectable()
 export class CalculateTaxUseCase {
@@ -46,13 +39,7 @@ export class CalculateTaxUseCase {
       salary: salary.toNumber(),
       totalTax: calculation.totalTax,
       effectiveRate: calculation.effectiveRate,
-      taxesByBand: calculation.bands.map((band) => ({
-        min: band.min,
-        max: band.max ?? null,
-        rate: band.rate,
-        taxableIncome: band.taxableIncome,
-        tax: band.tax
-      }))
+      taxesByBand: calculation.bands
     }
   }
 }

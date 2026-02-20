@@ -4,24 +4,20 @@ import request from 'supertest'
 
 import { CalculateTaxUseCase } from '@application/use-cases/calculate-tax.usecase'
 import { GetTaxRateByYearUseCase } from '@application/use-cases/get-tax-rate-by-year.usecase'
+import { TaxRateCacheConfigPort } from '@application/ports/tax-rate-cache-config.port'
 import { CachePort } from '@domain/ports/cache.port'
 import { TaxRatePort } from '@domain/ports/tax-rate.port'
 import { TaxCalculatorService } from '@domain/services/tax-calculator.service'
 import { PlusgradeTaxRateAdapter } from '@infra/plusgrade/adapters/plusgrade-tax-rate.adapter'
 import { ExternalTaxApiClient } from '@infra/plusgrade/http/external-tax-api.client'
+import type { ExternalTaxBracket } from '@infra/plusgrade/http/external-tax-api.types'
 
 import { TaxController } from './tax.controller'
-
-type Bracket = {
-  min: number
-  max?: number
-  rate: number
-}
 
 describe('TaxController (integration)', () => {
   let app: INestApplication
 
-  const brackets2022: Bracket[] = [
+  const brackets2022: ExternalTaxBracket[] = [
     { min: 0, max: 50197, rate: 0.15 },
     { min: 50197, max: 100392, rate: 0.205 },
     { min: 100392, max: 155625, rate: 0.26 },
@@ -47,8 +43,6 @@ describe('TaxController (integration)', () => {
   }
 
   beforeAll(async () => {
-    process.env.TAX_RATE_CACHE_TTL_SECONDS = '3600'
-
     const moduleRef = await Test.createTestingModule({
       controllers: [TaxController],
       providers: [
@@ -56,6 +50,10 @@ describe('TaxController (integration)', () => {
         CalculateTaxUseCase,
         TaxCalculatorService,
         PlusgradeTaxRateAdapter,
+        {
+          provide: TaxRateCacheConfigPort,
+          useValue: { getTtlSeconds: () => 3600 }
+        },
         { provide: CachePort, useValue: cacheMock },
         { provide: TaxRatePort, useClass: PlusgradeTaxRateAdapter },
         { provide: ExternalTaxApiClient, useValue: externalClientMock }

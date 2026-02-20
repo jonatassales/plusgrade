@@ -9,7 +9,12 @@ type LogEvent = {
   context?: Record<string, unknown>
 }
 
-const AXIOM_BASE_URL = 'https://api.axiom.co/v1/datasets'
+const DEFAULT_AXIOM_BASE_URL = 'https://api.axiom.co/v1/datasets'
+
+function getAxiomBaseUrl(): string {
+  const configured = process.env.AXIOM_BASE_URL ?? DEFAULT_AXIOM_BASE_URL
+  return configured.replace(/\/+$/, '')
+}
 
 export function resolveRequestId(providedId: string | null): string {
   if (providedId) {
@@ -28,7 +33,8 @@ export async function logAxiomEvent(event: LogEvent): Promise<void> {
   }
 
   try {
-    await fetch(`${AXIOM_BASE_URL}/${dataset}/ingest`, {
+    const axiomBaseUrl = getAxiomBaseUrl()
+    await fetch(`${axiomBaseUrl}/${dataset}/ingest`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${apiToken}`,

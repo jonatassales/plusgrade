@@ -23,6 +23,13 @@ services:
     container_name: api-auth
     ports:
       - "7000:7000"
+    environment:
+      PORT: 7000
+      MONGO_URI: mongodb://mongo:27017
+      MONGO_DB_NAME: api-auth-mongo
+      AXIOM_BASE_URL: https://api.axiom.co/v1/datasets
+      AXIOM_DATASET: plusgrade_observability
+      AXIOM_API_TOKEN: replace-with-axiom-token
     env_file:
       - ./apps/api-auth/.env
     depends_on:
@@ -43,6 +50,10 @@ services:
       PLUSGRADE_API_MAX_RETRIES: 3
       PLUSGRADE_API_RETRY_BACKOFF_MS: 150
       TAX_RATE_CACHE_TTL_SECONDS: 3600
+      AXIOM_BASE_URL: https://api.axiom.co/v1/datasets
+      AXIOM_DATASET: plusgrade_observability
+      AXIOM_API_TOKEN: replace-with-axiom-token
+      AXIOM_SERVICE_NAME: api-tax
     depends_on:
       - plusgrade-api
       - redis
@@ -58,6 +69,9 @@ services:
       API_TAX_BASE_URL: http://api-tax:7001
       API_TAX_TIMEOUT_MS: 10000
       WEB_INTERNAL_API_TIMEOUT_MS: 10000
+      AXIOM_BASE_URL: https://api.axiom.co/v1/datasets
+      AXIOM_DATASET: plusgrade_observability
+      AXIOM_API_TOKEN: replace-with-axiom-token
     depends_on:
       - api-tax
 

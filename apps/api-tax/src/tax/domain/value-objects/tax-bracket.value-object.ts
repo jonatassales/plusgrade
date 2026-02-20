@@ -1,8 +1,4 @@
-export interface TaxBracketInput {
-  min: number
-  max: number | null
-  rate: number
-}
+import type { TaxBracket as TaxBracketInput } from '@domain/types/tax-bracket.type'
 
 export class TaxBracket {
   private constructor(
@@ -30,15 +26,15 @@ export class TaxBracket {
     return new TaxBracket(input.min, input.max, input.rate)
   }
 
-  get min(): number {
+  get min(): TaxBracketInput['min'] {
     return this.minValue
   }
 
-  get max(): number | null {
+  get max(): TaxBracketInput['max'] {
     return this.maxValue
   }
 
-  get rate(): number {
+  get rate(): TaxBracketInput['rate'] {
     return this.rateValue
   }
 
