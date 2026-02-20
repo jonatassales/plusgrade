@@ -10,10 +10,6 @@ you can quickly understand each part, start the stack with Docker Compose, and
 run a direct validation battery that checks the exact Plusgrade interview
 scenarios.
 
-## :bar_chart: Insights
-
-![Alt](https://repobeats.axiom.co/api/embed/7d5823b40a8d6d0cf183bc980d190772e54b97c8.svg "Repobeats analytics image")
-
 ---
 
 ## 🚀 Quick Clone
@@ -71,7 +67,6 @@ Cross-project patterns used in this monorepo:
 - **Cache-Aside Pattern** (Redis on tax-rate retrieval flow)
 - **Value Objects** for domain invariants
 - **Boundary Validation** (pipes/schemas at API edges)
-- **Fail-Fast Environment Configuration** (required env vars)
 
 These patterns are implemented in different intensities depending on each app’s
 responsibility.

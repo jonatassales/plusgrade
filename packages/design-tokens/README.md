@@ -127,14 +127,6 @@ explicit, reusable, and easier to evolve. It also improves communication between
 design and engineering because style changes can be discussed as token updates
 instead of component-by-component edits.
 
-### Layered Theme Mapping Pattern
-
-Tokens are exported as a base layer, then consumer apps map them into framework
-specific layers. In the current web app, token variables map to Tailwind and
-shadcn variables in `app/globals.css`. This layered mapping pattern keeps the
-token package framework-neutral while still enabling framework-native theming in
-apps.
-
 ### Single Source of Truth Pattern
 
 By centralizing token definitions in one package, the monorepo avoids parallel

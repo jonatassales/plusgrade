@@ -22,7 +22,7 @@ with backend APIs.
 ### Interaction map
 
 ```mermaid
-flowchart LR
+flowchart TB
   user["Browser User"]
   web["web (Next.js App Router)"]
   action["Server Action"]
@@ -70,35 +70,51 @@ feature behavior.
 
 ## 🗂️ Folder Structure
 
+Source layout follows **feature colocation** under `app/_features/<feature>` and
+**infra separation** under `infra/` (shadcn UI primitives + Axiom observability).
+
+Route segments like `login/` and `signup/` **repeat this pattern** per page: each has
+`page.tsx`, optional `_components/`, and `_features/*`:
+
 ```bash
 apps/web
 ├─ app/
 │  ├─ layout.tsx
 │  ├─ page.tsx
+│  ├─ globals.css
 │  ├─ api/
 │  │  └─ income-tax/
 │  │     └─ route.ts
 │  ├─ login/
-│  │  └─ page.tsx
+│  │  ├─ page.tsx
+│  │  ├─ _components/
+│  │  └─ _features/
+│  │     ├─ login/
+│  │     └─ forgot-password/
 │  ├─ signup/
-│  │  └─ page.tsx
+│  │  ├─ page.tsx
+│  │  ├─ _components/
+│  │  └─ _features/
+│  │     └─ signup/
 │  ├─ _components/
+│  │  ├─ index.ts
 │  │  ├─ Header/
+│  │  │  └─ Header.tsx
 │  │  ├─ Logo/
+│  │  │  └─ Logo.tsx
 │  │  ├─ UserAvatar/
+│  │  │  └─ UserAvatar.tsx
 │  │  └─ UserDropdownMenu/
+│  │     └─ UserDropdownMenu.tsx
 │  └─ _features/
 │     └─ income-tax/
 │        ├─ actions/
 │        ├─ domain/
+│        ├─ errors/
 │        └─ ui/
 ├─ infra/
+│  ├─ axiom/
 │  └─ shadcn/
-│     ├─ components/
-│     │  ├─ ui/
-│     │  ├─ login-form.tsx
-│     │  └─ signup-form.tsx
-│     └─ lib/
 └─ package.json
 ```
 
@@ -118,10 +134,11 @@ Each feature keeps related code together under `app/_features/<feature>`:
 
 - `domain/` for schema + types
 - `actions/` for server actions and integration calls
+- `errors/` for feature-specific error factories and enums (e.g. UI error mapping)
 - `ui/` for React components specific to that feature
 
 This improves maintainability by reducing cross-folder coupling and keeping
-domain validation close to consumers.
+domain validation and error handling close to consumers.
 
 ### Validation Boundary with Zod
 
@@ -134,12 +151,17 @@ The same `incomeTaxInputSchema` is reused in:
 This layered validation keeps invalid data from crossing boundaries and avoids
 duplicated validation logic with drifting behavior.
 
-### Infra Separation with shadcn
+### Infra Separation (shadcn + Axiom)
 
-The `infra/shadcn` folder hosts reusable UI primitives and generic auth forms,
-while app-level components and feature widgets live in `app/*`. This separation
-keeps infrastructure-level UI implementation details isolated from product
-feature behavior and page orchestration.
+The `infra/` folder holds shared infrastructure:
+
+- **`infra/shadcn`**: reusable UI primitives and generic auth forms (login/signup).
+- **`infra/axiom`**: observability (logger, log levels, event enums) for server-side
+  tracing and Axiom integration.
+
+App-level components and feature widgets live under `app/*`. This separation
+keeps infrastructure implementation details isolated from product feature
+behavior and page orchestration.
 
 ### Error Boundary Strategy
 
@@ -227,21 +249,6 @@ Error response:
 ```json
 { "error": "message" }
 ```
-
----
-
-## ⚙️ Environment Variables
-
-Required/used variables:
-
-- `API_TAX_BASE_URL` (default: `http://localhost:7001`)
-- `API_TAX_TIMEOUT_MS` (default: `10000`)
-- `WEB_INTERNAL_API_TIMEOUT_MS` (default: `10000`)
-- `AXIOM_DATASET` (Axiom dataset name for observability events)
-- `AXIOM_API_TOKEN` (Axiom API token used by server-side logging)
-
-Use the workspace and deployment env configuration to define app-specific
-values for local and production environments.
 
 ---
 

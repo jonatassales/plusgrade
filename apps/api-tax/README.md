@@ -68,14 +68,19 @@ apps/api-tax
 │  │  ├─ domain/
 │  │  │  ├─ ports/
 │  │  │  ├─ services/
+│  │  │  ├─ types/
 │  │  │  └─ value-objects/
 │  │  ├─ application/
+│  │  │  ├─ ports/
 │  │  │  └─ use-cases/
 │  │  ├─ interface/
 │  │  │  ├─ dto/
 │  │  │  ├─ http/
 │  │  │  └─ pipes/
 │  │  ├─ infra/
+│  │  │  ├─ axiom/
+│  │  │  ├─ env/
+│  │  │  │  └─ adapters/
 │  │  │  ├─ plusgrade/
 │  │  │  │  ├─ adapters/
 │  │  │  │  └─ http/
@@ -121,14 +126,6 @@ and safer to refactor when integration details change.
 
 > [IMAGE PLACEHOLDER: Ports and Adapters diagram]
 
-### Domain-Driven Design (DDD)
-
-DDD appears here through tactical modeling with Value Objects that protect
-invariants at creation time. `TaxYear` enforces supported years, `Salary`
-enforces non-negative values, and tax bracket/rate objects validate domain
-consistency before any calculation happens. This makes invalid states hard to
-represent and keeps tax behavior aligned with explicit domain language.
-
 ---
 
 ## 🧩 Design Patterns Used
@@ -146,7 +143,7 @@ across controller or adapter code.
   <img src="../../docs/images/architecture/cache-aside-pattern.png" width="600" />
 </p>
 
-### Retry + Fallback Resilience Pattern
+### Retry + Fallback Resilience
 
 Upstream retrieval applies retry/backoff for unstable calls and introduces a
 dedicated fallback behavior for year `2022` by querying the stable
@@ -154,23 +151,6 @@ dedicated fallback behavior for year `2022` by querying the stable
 instability without leaking random external failures directly as business logic.
 It improves reliability while still surfacing meaningful HTTP errors when limits
 are exceeded.
-
-### Use Case Pattern
-
-Core actions are organized as explicit use-cases:
-`GetTaxRateByYearUseCase` and `CalculateTaxUseCase`. This pattern keeps route
-handlers thin, keeps orchestration explicit, and allows focused testing of tax
-retrieval and tax computation behavior separately. As a result, each change can
-be validated where it belongs, instead of mixing transport, integration, and
-domain concerns in the same function.
-
-### Fail-Fast Configuration Pattern
-
-The service validates required environment variables as numbers/strings at
-startup and during component initialization. Missing or invalid config causes
-immediate failure instead of runtime fallback defaults. For this API, fail-fast
-behavior is especially important to avoid silent misconfiguration around cache
-TTL, retry parameters, and external endpoint location.
 
 ---
 
@@ -188,16 +168,6 @@ Base path: `/tax-calculator`
 ## ⚙️ Environment Variables
 
 Reference template: [`apps/api-tax/.env.template`](./.env.template)
-
-Required variables:
-
-- `PORT`
-- `REDIS_URL`
-- `PLUSGRADE_TAX_API_BASE_URL`
-- `PLUSGRADE_API_TIMEOUT_MS`
-- `PLUSGRADE_API_MAX_RETRIES`
-- `PLUSGRADE_API_RETRY_BACKOFF_MS`
-- `TAX_RATE_CACHE_TTL_SECONDS`
 
 ---
 
